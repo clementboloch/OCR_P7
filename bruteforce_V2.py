@@ -21,17 +21,17 @@ def bestWay(prices, profits, budget, step):
     else:
         profit = profits[step - 1]
         benefit = profit * price
-        ifBuy = benefit + bestWay(prices, profits, budget - price, step - 1)
-        ifLet = bestWay(prices, profits, budget, step - 1)
-        if ifBuy >= ifLet:
-            return ifBuy
+
+        ifBuyChild = bestWay(prices, profits, budget - price, step - 1)
+        ifBuyBenefit = benefit + ifBuyChild['benefit']
+        ifLetChild = bestWay(prices, profits, budget, step - 1)
+        ifLetBenefit = ifLetChild['benefit']
+        if ifBuyBenefit >= ifLetBenefit:
+            ifBuyList = ifBuyChild['list'] + [step - 1]
+            return {'benefit': ifBuyBenefit, 'list': ifBuyList}
         else:
-            return ifLet
+            return {'benefit': ifLetBenefit, 'list': ifLetChild['list']}
 
 
-def glob(prices, profits, budget, step):
-    profit = bestWay(prices, profits, budget, step)
-    return profit
-
-
-print(len(glob(prices, profits, 500, size)))
+results = bestWay(prices, profits, 300, size)
+print(results)
