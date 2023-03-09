@@ -14,13 +14,22 @@ def str_to_float(val):
         val /= 100
     else:
         val = float(val)
-    print(val)
     return val
 
 
-def convert(data):
+def getDB(data):
     df = pd.read_excel(data)
     df.columns = columnsName
     for column in ['price', 'profit']:
         df[column] = df[column].apply(lambda x: str_to_float(x))
+    return df
+
+
+def getDict(data):
+    df = getDB(data)
     return df.to_dict(orient='index')
+
+
+def getColumn(data, columnName):
+    df = getDB(data)
+    return df[columnName]
