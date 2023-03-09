@@ -1,8 +1,10 @@
 import itertools
 from copy import deepcopy
-from data_to_dict import getDict
+from myDB import myDB
 
-actions = getDict("data.xlsx")
+
+Data = myDB("data.xlsx")
+actions = Data.getDict()
 way_format = {'budget': 500, 'benef': 0, 'bought': []}
 ways = []
 

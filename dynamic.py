@@ -1,9 +1,9 @@
-from data_to_dict import getColumn
+from myDB import myDB
 from copy import deepcopy
 
-
-prices = getColumn("data.xlsx", 'price')
-profits = getColumn("data.xlsx", 'profit')
+Data = myDB("data.xlsx")
+prices = Data.getColumn('price')
+profits = Data.getColumn('profit')
 size = len(prices)
 
 
