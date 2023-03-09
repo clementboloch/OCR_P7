@@ -14,12 +14,12 @@ def buyOrNot(action, way):
     price = action['price']
     profit = action['profit']
     if price > way['budget']:
-        return False
+        return True
     else:
         way['budget'] -= action['price']
         way['benef'] += price * profit
         way['bought'].append(action['name'])
-        return True
+        return False
 
 
 def defineBest(ways):
@@ -35,7 +35,9 @@ def defineBest(ways):
 for combination in combinations:
     way = deepcopy(way_format)
     for index in combination:
-        buyOrNot(actions[index], way)
+        stop = buyOrNot(actions[index], way)
+        if stop:
+            break
     ways.append(way)
 
 best = defineBest(ways)
