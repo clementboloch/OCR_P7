@@ -8,7 +8,7 @@ actions = Data.getDict()
 way_format = {'budget': 500, 'benef': 0, 'bought': []}
 ways = []
 
-size = 20
+size = 5
 combinations = list(itertools.permutations(range(size)))
 
 
@@ -29,7 +29,7 @@ def defineBest(ways):
     for way in ways:
         if way['benef'] > best['benef']:
             best = way
-        elif way['benef'] == best['benef'] & way['budget'] > best['budget']:
+        elif (way['benef'] == best['benef']) & (way['budget'] > best['budget']):
             best = way
     return best
 
