@@ -1,8 +1,9 @@
 from myDB import myDB
 from copy import deepcopy
 
-# Data = myDB("data.xlsx")
-Data = myDB("data.xlsx", potential=True, head=17)
+Data = myDB("data.xlsx")
+# Data = myDB("data.xlsx", potential=True, head=17)
+names = Data.getColumn('name')
 prices = Data.getColumn('price')
 profits = Data.getColumn('profit')
 size = len(prices)
@@ -13,7 +14,7 @@ def bestWay(prices, profits, budget, step):
         raise ValueError("The two lists must have the same length.")
 
     if (step == 0):
-        return {'benefit': 0, 'list': deepcopy([])}
+        return {'budget': budget, 'benefit': 0, 'list': deepcopy([])}
 
     price = prices[step - 1]
 
@@ -25,13 +26,15 @@ def bestWay(prices, profits, budget, step):
 
         ifBuyChild = bestWay(prices, profits, budget - price, step - 1)
         ifBuyBenefit = benefit + ifBuyChild['benefit']
+        ifBuyBudget = ifBuyChild['budget']
         ifLetChild = bestWay(prices, profits, budget, step - 1)
         ifLetBenefit = ifLetChild['benefit']
+        ifLetBudget = ifLetChild['budget']
         if ifBuyBenefit >= ifLetBenefit:
-            ifBuyList = ifBuyChild['list'] + [step - 1]
-            return {'benefit': ifBuyBenefit, 'list': ifBuyList}
+            ifBuyList = ifBuyChild['list'] + [names[step - 1]]
+            return {'budget': ifBuyBudget, 'benefit': ifBuyBenefit, 'list': ifBuyList}
         else:
-            return {'benefit': ifLetBenefit, 'list': ifLetChild['list']}
+            return {'budget': ifLetBudget, 'benefit': ifLetBenefit, 'list': ifLetChild['list']}
 
 
 results = bestWay(prices, profits, 500, size)
