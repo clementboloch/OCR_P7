@@ -16,12 +16,14 @@ def str_to_float(val):
 
 
 class myDB:
-    def __init__(self, data, potential=False):
+    def __init__(self, data, potential=False, head=0):
         self.df = pd.read_excel(data)
         self.columnsName = ['name', 'price', 'profit']
         self.cleanDB()
         if potential:
             self.calcPotential()
+        if head:
+            self.df = self.df.head(head)
 
     def cleanDB(self):
         self.df.columns = self.columnsName
@@ -30,10 +32,10 @@ class myDB:
 
     def calcPotential(self):
         self.df['potential'] = self.df['profit'] / self.df['price']
-        self.df.sort_values(by=['potential'])
+        self.df.sort_values(by=['potential'], ascending=False, inplace=True)
 
     def getDict(self):
         return self.df.to_dict(orient='index')
 
     def getColumn(self, columnName):
-        return self.df[columnName]
+        return list(self.df[columnName])
