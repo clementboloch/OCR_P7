@@ -1,7 +1,8 @@
 from myDB import myDB
 from copy import deepcopy
 
-Data = myDB("data.xlsx")
+# Data = myDB("data.xlsx")
+Data = myDB("data.xlsx", potential=True, head=17)
 prices = Data.getColumn('price')
 profits = Data.getColumn('profit')
 size = len(prices)
