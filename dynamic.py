@@ -44,5 +44,5 @@ def getWay(path, budget, head=0):
     return bestWay(names, prices, profits, budget, size)
 
 
-results = getWay("data.xlsx", 500)
+results = getWay("data/data.xlsx", 500)
 print(results)

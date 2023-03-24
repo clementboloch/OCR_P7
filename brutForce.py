@@ -48,5 +48,5 @@ def getWay(path, budget, head=0):
     return defineBest(ways)
 
 
-best = getWay("data.xlsx", 500, 15)
+best = getWay("data/data.xlsx", 500, 15)
 print(best)

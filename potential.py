@@ -22,5 +22,5 @@ def getWay(path, budget):
     return way
 
 
-results = getWay("data.xlsx", 500)
+results = getWay("data/data.xlsx", 500)
 print(results)
