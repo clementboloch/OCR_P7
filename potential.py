@@ -1,7 +1,5 @@
 from myDB import myDB
-
-Data = myDB("data.xlsx", potential=True)
-way = {'budget': 500, 'benef': 0, 'bought': []}
+from timer import timer
 
 
 def buy(way, action):
@@ -10,12 +8,19 @@ def buy(way, action):
     way['bought'].append(action['name'])
 
 
-for index, action in Data.getDict().items():
-    print('budget', way['budget'])
-    buy(way, action)
-    Data.rmAction(index)
-    Data.rmExpensive(way['budget'])
-    if Data.len() <= 0:
-        break
+@timer
+def getWay(path, budget):
+    Data = myDB(path, potential=True)
+    way = {'budget': budget, 'benef': 0, 'bought': []}
 
-print(way)
+    for index, action in Data.getDict().items():
+        buy(way, action)
+        Data.rmAction(index)
+        Data.rmExpensive(way['budget'])
+        if Data.len() <= 0:
+            break
+    return way
+
+
+results = getWay("data.xlsx", 500)
+print(results)

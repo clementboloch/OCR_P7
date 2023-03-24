@@ -1,15 +1,7 @@
 import itertools
 from copy import deepcopy
 from myDB import myDB
-
-
-Data = myDB("data.xlsx")
-actions = Data.getDict()
-way_format = {'budget': 500, 'benef': 0, 'bought': []}
-ways = []
-
-size = 5
-combinations = list(itertools.permutations(range(size)))
+from timer import timer
 
 
 def buyOrNot(action, way):
@@ -34,13 +26,27 @@ def defineBest(ways):
     return best
 
 
-for combination in combinations:
-    way = deepcopy(way_format)
-    for index in combination:
-        stop = buyOrNot(actions[index], way)
-        if stop:
-            break
-    ways.append(way)
+@timer
+def getWay(path, budget, head=0):
+    if head == 0:
+        Data = myDB(path)
+    else:
+        Data = myDB(path, potential=True, head=head)
 
-best = defineBest(ways)
+    actions = list(Data.getDict().values())
+    way_format = {'budget': budget, 'benef': 0, 'bought': []}
+    ways = []
+    combinations = list(itertools.permutations(range(Data.len())))
+
+    for combination in combinations:
+        way = deepcopy(way_format)
+        for index in combination:
+            stop = buyOrNot(actions[index], way)
+            if stop:
+                break
+        ways.append(way)
+    return defineBest(ways)
+
+
+best = getWay("data.xlsx", 500, 15)
 print(best)

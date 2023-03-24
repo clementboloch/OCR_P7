@@ -1,15 +1,9 @@
 from myDB import myDB
+from timer import timer
 from copy import deepcopy
 
-Data = myDB("data.xlsx")
-# Data = myDB("data.xlsx", potential=True, head=17)
-names = Data.getColumn('name')
-prices = Data.getColumn('price')
-profits = Data.getColumn('profit')
-size = len(prices)
 
-
-def bestWay(prices, profits, budget, step):
+def bestWay(names, prices, profits, budget, step):
     if len(prices) != len(profits):
         raise ValueError("The two lists must have the same length.")
 
@@ -19,15 +13,15 @@ def bestWay(prices, profits, budget, step):
     price = prices[step - 1]
 
     if price > budget:
-        return bestWay(prices, profits, budget, step - 1)
+        return bestWay(names, prices, profits, budget, step - 1)
     else:
         profit = profits[step - 1]
         benefit = profit * price
 
-        ifBuyChild = bestWay(prices, profits, budget - price, step - 1)
+        ifBuyChild = bestWay(names, prices, profits, budget - price, step - 1)
         ifBuyBenefit = benefit + ifBuyChild['benefit']
         ifBuyBudget = ifBuyChild['budget']
-        ifLetChild = bestWay(prices, profits, budget, step - 1)
+        ifLetChild = bestWay(names, prices, profits, budget, step - 1)
         ifLetBenefit = ifLetChild['benefit']
         ifLetBudget = ifLetChild['budget']
         if ifBuyBenefit >= ifLetBenefit:
@@ -37,5 +31,18 @@ def bestWay(prices, profits, budget, step):
             return {'budget': ifLetBudget, 'benefit': ifLetBenefit, 'list': ifLetChild['list']}
 
 
-results = bestWay(prices, profits, 500, size)
+@timer
+def getWay(path, budget, head=0):
+    if head == 0:
+        Data = myDB(path)
+    else:
+        Data = myDB(path, potential=True, head=head)
+    names = Data.getColumn('name')
+    prices = Data.getColumn('price')
+    profits = Data.getColumn('profit')
+    size = len(prices)
+    return bestWay(names, prices, profits, budget, size)
+
+
+results = getWay("data.xlsx", 500)
 print(results)
