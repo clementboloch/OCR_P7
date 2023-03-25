@@ -42,8 +42,9 @@ class myDB:
         self.df.profit = self.df.profit.apply(lambda x: x / 100)
 
     def calcPotential(self):
-        self.df['potential'] = self.df['profit'] * self.df['price']
+        # self.df['potential'] = self.df['profit'] * self.df['price']
         # self.df['potential'] = self.df['profit'] / self.df['price']
+        self.df['potential'] = self.df['profit']
         # sort by potential
         self.df.sort_values(by=['potential'], ascending=False, inplace=True)
         # update index
