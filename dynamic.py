@@ -32,11 +32,11 @@ def bestWay(names, prices, profits, budget, step):
 
 
 @timer
-def getWay(path, budget, head=0):
+def getWay(path, budget, head=0, csv=False):
     if head == 0:
-        Data = myDB(path)
+        Data = myDB(path, csv=csv)
     else:
-        Data = myDB(path, potential=True, head=head)
+        Data = myDB(path, potential=True, head=head, csv=csv)
     names = Data.getColumn('name')
     prices = Data.getColumn('price')
     profits = Data.getColumn('profit')
@@ -44,5 +44,6 @@ def getWay(path, budget, head=0):
     return bestWay(names, prices, profits, budget, size)
 
 
-results = getWay("data/data.xlsx", 500)
-print(results)
+if __name__ == "__main__":
+    results = getWay("data/data.xlsx", 500)
+    print(results)

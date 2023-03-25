@@ -27,11 +27,11 @@ def defineBest(ways):
 
 
 @timer
-def getWay(path, budget, head=0):
+def getWay(path, budget, head=0, csv=False):
     if head == 0:
-        Data = myDB(path)
+        Data = myDB(path, csv=csv)
     else:
-        Data = myDB(path, potential=True, head=head)
+        Data = myDB(path, potential=True, head=head, csv=csv)
 
     actions = list(Data.getDict().values())
     way_format = {'budget': budget, 'benef': 0, 'bought': []}
@@ -48,5 +48,6 @@ def getWay(path, budget, head=0):
     return defineBest(ways)
 
 
-best = getWay("data/data.xlsx", 500, 15)
-print(best)
+if __name__ == "__main__":
+    best = getWay("data/data.xlsx", 500, 15)
+    print(best)
