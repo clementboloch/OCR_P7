@@ -9,8 +9,8 @@ def buy(way, action):
 
 
 @timer
-def getWay(path, budget, csv=False):
-    Data = myDB(path, potential=True, csv=csv)
+def getWay(path, budget, head=0, csv=False):
+    Data = myDB(path, potential=True, head=head, csv=csv)
     way = {'budget': budget, 'benef': 0, 'bought': []}
 
     for index, action in Data.getDict().items():
